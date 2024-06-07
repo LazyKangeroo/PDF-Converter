@@ -3,17 +3,18 @@ import os
 import comtypes.client
 
 class Convert:
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
-    def getFileInfo(self):
+    def getFileInfo(self,og_path):
+        # configuring path
         path = ''
-        og_path = input('Enter File Path : ')
+        # og_path = input('Enter File Path : ')
         print('------------------------------------------------------')
 
-        split_path = og_path.split('\\')
+        split_path = og_path.split('\\') # Split path to get access with file name
         print(f'Splitted path : {split_path}')
-        file_name = split_path[-1]
+        file_name = split_path[-1] # full file name
         print(f'File name : {file_name}')
         split_path.pop(-1)
         print(f'Path without file name : {split_path}')
@@ -25,20 +26,16 @@ class Convert:
             else:
                 path = f"{path}\\{i}"
             print(i)
-            print(path)
+            print(path) # file path without file to get general file path
         print('##################################################################')
         print(f'Path put together : {path}')
-
-        file_extention = file_name.split('.')
-        file_name = file_extention[0]
-        file_extention = file_extention[-1]
-        print(f'File Extention : {file_extention}')
         print(f'File Name without Extention : {file_name}')
 
         self.docxTopdf(path,file_name)
 
     def docxTopdf(self,file_path,file_name):
-        word_path = f'{file_path}\\{file_name}.docx'
+        ## Converting file ##
+        word_path = f'{file_path}\\{file_name}'
         pdf_path = f'{file_path}\\{file_name}.pdf'
 
         doc = docx.Document(word_path)
@@ -54,8 +51,6 @@ class Convert:
         in_file.Close()
 
         word.Quit()
-        return
 
-
-convert = Convert()
-convert.getFileInfo()
+# convert = Convert()
+# convert.getFileInfo()
