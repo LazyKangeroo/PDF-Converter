@@ -1,0 +1,14 @@
+## Window
+WIDTH, HEIGHT = 400, 250
+
+## Heading
+HEADING_HEIGHT = 60
+
+## Colours
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+PURPLE = (153,102,153)
+BLUE = (102,178,255)
+TEXT = (255,153,153)
+GREY = (98,98,98)
+RED = (255,0,0)
