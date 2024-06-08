@@ -23,3 +23,4 @@
          2.2.2.1) Note that the convertion process may take a while depending on the size of the file selected.
   3) After the convertion process was completed the converted file will appear in the same folder as the file you converted.
      3.1) If there was anything wrong with the convertion or the file wasn't converted, try the process again. The error may have been a technical error
+  4) It is IMPORTANT to note that if you select multiple file to be converted the program will ONLY CONVERT THE FIRST file you selected. 
