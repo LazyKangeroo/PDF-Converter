@@ -7,50 +7,49 @@ class Convert:
         pass
 
     def getFileInfo(self,og_path):
-        # configuring path
-        path = ''
+        # User inputs the file path
         # og_path = input('Enter File Path : ')
         print('------------------------------------------------------')
 
-        split_path = og_path.split('\\') # Split path to get access with file name
-        print(f'Splitted path : {split_path}')
-        file_name = split_path[-1] # full file name
-        print(f'File name : {file_name}')
-        split_path.pop(-1)
-        print(f'Path without file name : {split_path}')
+        # Splitting the path to extract the file name and path
+        split_path = og_path.split(os.sep)  # Use os.sep for cross-platform compatibility
+        file_name = split_path[-1]  # Extracting the file name
+        split_path = split_path[:-1]  # Removing the last element (file name) from the path
 
-        print('##################################################################')
-        for i in split_path:
-            if i == split_path[0]:
-                path = i
-            else:
-                path = f"{path}\\{i}"
-            print(i)
-            print(path) # file path without file to get general file path
-        print('##################################################################')
-        print(f'Path put together : {path}')
-        print(f'File Name without Extention : {file_name}')
+        # Constructing the path without the file name
+        path = os.sep.join(split_path)
 
-        self.docxTopdf(path,file_name)
+        # Separating the file name and extension
+        file_ex = file_name.rsplit('.', 1)  # Splits the string at the last dot
+        file_name = file_ex[0]  # File name without extension
+        file_ext = file_ex[-1]  # File extension
 
-    def docxTopdf(self,file_path,file_name):
-        ## Converting file ##
-        word_path = f'{file_path}\\{file_name}'
-        pdf_path = f'{file_path}\\{file_name}.pdf'
+        # Constructing the DOCX and PDF paths
+        word_path = os.path.join(path, f'{file_name}.docx')
+        pdf_path = os.path.join(path, f'{file_name}.pdf')
 
-        doc = docx.Document(word_path)
+        print(f'Word Path : {word_path}')
+        print(f'PDF Path : {pdf_path}')
 
-        word = comtypes.client.CreateObject('Word.Application')
-        docx_path = os.path.abspath(word_path)
-        pdf_path = os.path.abspath(pdf_path)
+        self.docxTopdf(word_path, pdf_path)
 
-        pdf_format = 17
-        word.Visible = False
-        in_file = word.Documents.Open(docx_path)
-        in_file.SaveAs(pdf_path, FileFormat=pdf_format)
-        in_file.Close()
+    def docxTopdf(self, docx_path, pdf_path):
+        try:
+            # Creating a Word application instance
+            word = comtypes.client.CreateObject('Word.Application')
+            word.Visible = False
 
-        word.Quit()
+            # Opening the DOCX file
+            in_file = word.Documents.Open(docx_path)
+
+            # Saving the file as PDF
+            in_file.SaveAs(pdf_path, FileFormat=17)  # 17 corresponds to PDF format
+
+            # Closing the document and quitting Word
+            in_file.Close()
+            word.Quit()
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
 # convert = Convert()
 # convert.getFileInfo()
