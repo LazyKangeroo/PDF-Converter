@@ -30,9 +30,14 @@ class Main:
         # modules
         self.convert = Convert()
 
+        #counter
+        self.clickCount = 0
+
     def run(self):
         dropped = False
         correct_drop = False
+        err = False
+        head_clicked = False
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -60,24 +65,24 @@ class Main:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.header_rect.collidepoint(event.pos):
-                        print('Header Clicked')
+                        # print('Header Clicked')
+                        head_clicked = True
+                        self.clickCount = self.clickCount + 1
                         if dropped and correct_drop:
                             # Correct file dropped > file gets converted when header is clicked
                             print('...Converting File...')
-                            self.convert.getFileInfo(file_path)
-                            print('...Complete...')
+                            err = self.convert.getFileInfo(file_path)
                             dropped = False
 
-                        elif not correct_drop:
-                            print('...Reseting...')
-                            dropped = False
-                            file_path = ' '
+                        if (self.clickCount % 2) == 0:
+                            if not correct_drop:
+                                print('...Reseting...')
+                                dropped = False
+                                file_path = None
+                                head_clicked = False
 
             # Display
             self.window.blit(self.header_surface,self.header_rect)
-            self.header_surface.fill(GREY)
-            self.header_surface.blit(self.text_surface_btn,self.text_rect_btn)
-
             self.window.blit(self.dropbox_surface,self.dropbox_rect)
 
             # Chaning colour of dropbox depending on situation
@@ -87,8 +92,17 @@ class Main:
                 self.dropbox_surface.fill(BLUE)
             elif dropped and not correct_drop:
                 self.dropbox_surface.fill(RED)
+            elif err:
+                self.dropbox_surface.fill(ORANGE)
+
+            # Changing colour of header when clicked
+            if head_clicked:
+                self.header_surface.fill(LIGHT_GREY)
+            elif not head_clicked:
+                self.header_surface.fill(GREY)
 
             self.dropbox_surface.blit(self.text_surface_lbl,self.text_rect_lbl)
+            self.header_surface.blit(self.text_surface_btn,self.text_rect_btn)
 
             # Update the display
             pygame.display.update()

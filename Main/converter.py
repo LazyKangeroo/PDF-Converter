@@ -1,13 +1,13 @@
 import docx
 import os
 import comtypes.client
-from pdf2docx import Converter
 
 class Convert:
     def __init__(self):
         pass
 
     def getFileInfo(self,og_path):
+        err = False
         # User inputs the file path
         # og_path = input('Enter File Path : ')
         print('------------------------------------------------------')
@@ -25,8 +25,6 @@ class Convert:
         file_name = file_ex[0]  # File name without extension
         file_ext = file_ex[-1]  # File extension
 
-        print(f'File EX : {file_ext}')
-
         # Constructing the DOCX and PDF paths
         word_path = os.path.join(path, f'{file_name}.docx')
         pdf_path = os.path.join(path, f'{file_name}.pdf')
@@ -34,10 +32,7 @@ class Convert:
         print(f'Word Path : {word_path}')
         print(f'PDF Path : {pdf_path}')
 
-        if file_ext in ['docx']:
-            self.docxTopdf(word_path, pdf_path)
-        elif file_ext in ['pdf']:
-            self.pdfTodocx(word_path, pdf_path)
+        self.docxTopdf(word_path, pdf_path)
 
     def docxTopdf(self, docx_path, pdf_path):
         try:
@@ -54,21 +49,8 @@ class Convert:
             # Closing the document and quitting Word
             in_file.Close()
             word.Quit()
-
         except Exception as e:
             print(f"An error occurred: {e}")
-
-    def pdfTodocx(self,docx_path,pdf_path):
-        try:
-            # Using the built-in function, convert the PDF file to a document file by saving it in a variable.
-            cv = Converter(pdf_path)
-            # Storing the Document in the variable's initialised path
-            cv.convert(docx_path)
-            # Conversion closure through the function close()
-            cv.close()
-
-        except Exception as e:
-            print(f"An error occurred : {e}")
 
 # convert = Convert()
 # convert.getFileInfo()
