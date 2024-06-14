@@ -7,9 +7,9 @@ class Convert:
     def __init__(self):
         pass
 
-    def getFileInfo(self):
+    def getFileInfo(self,og_path):
         # User inputs the file path
-        og_path = input('Enter File Path : ')
+        # og_path = input('Enter File Path : ')
         print('------------------------------------------------------')
 
         # Splitting the path to extract the file name and path
@@ -54,6 +54,7 @@ class Convert:
             # Closing the document and quitting Word
             in_file.Close()
             word.Quit()
+
         except Exception as e:
             print(f"An error occurred: {e}")
 
@@ -65,8 +66,9 @@ class Convert:
             cv.convert(docx_path)
             # Conversion closure through the function close()
             cv.close()
+
         except Exception as e:
             print(f"An error occurred : {e}")
 
-convert = Convert()
-convert.getFileInfo()
+# convert = Convert()
+# convert.getFileInfo()

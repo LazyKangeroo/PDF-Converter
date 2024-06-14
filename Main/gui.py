@@ -51,7 +51,7 @@ class Main:
                     self.file_ex = self.file_ex[-1]
 
                     # Checking if file is supported
-                    if self.file_ex in ['docx','doc']:
+                    if self.file_ex in ['docx','doc','pdf']:
                         correct_drop = True # stating correct file type was dropped
                         print('Correct File Type')
                     else:
